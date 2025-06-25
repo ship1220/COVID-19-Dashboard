@@ -17,7 +17,7 @@ def load_data():
 df = load_data()
 
 # Sidebar filters
-st.sidebar.header("📌 Filter")
+st.sidebar.header(" Filter")
 country = st.sidebar.selectbox("Select Country", sorted(df["location"].unique()))
 country_data = df[df["location"] == country]
 # Date range filter
