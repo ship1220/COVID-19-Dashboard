@@ -53,6 +53,21 @@ sns.lineplot(x="date", y="new_cases", data=filtered_data, ax=ax, color="red")
 
 ax.set_ylabel("New Cases")
 st.pyplot(fig)
+st.markdown("## 🌍 Top 10 Countries by Total Cases")
+
+# Group and sort data
+latest_date = df["date"].max()
+latest_data = df[df["date"] == latest_date]
+
+top_10 = latest_data.sort_values("total_cases", ascending=False).head(10)
+
+# Plot bar chart
+fig2, ax2 = plt.subplots(figsize=(10, 5))
+sns.barplot(x="total_cases", y="location", data=top_10, palette="Reds_r", ax=ax2)
+ax2.set_xlabel("Total Cases")
+ax2.set_ylabel("Country")
+st.pyplot(fig2)
+
 
 # Optional: Add more sections (vaccinations over time, death rate, etc.)
 
