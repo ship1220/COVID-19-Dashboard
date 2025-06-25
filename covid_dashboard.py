@@ -21,8 +21,9 @@ st.sidebar.header("📌 Filter")
 country = st.sidebar.selectbox("Select Country", sorted(df["location"].unique()))
 country_data = df[df["location"] == country]
 # Date range filter
-min_date = country_data["date"].min()
-max_date = country_data["date"].max()
+min_date = country_data["date"].min().date()
+max_date = country_data["date"].max().date()
+
 date_range = st.sidebar.slider(
     "Select Date Range",
     min_value=min_date,
@@ -31,7 +32,11 @@ date_range = st.sidebar.slider(
 )
 
 # Filter country_data based on date range
-filtered_data = country_data[(country_data["date"] >= date_range[0]) & (country_data["date"] <= date_range[1])]
+filtered_data = country_data[
+    (country_data["date"] >= pd.to_datetime(date_range[0])) &
+    (country_data["date"] <= pd.to_datetime(date_range[1]))
+]
+
 
 
 # Display metrics
