@@ -20,6 +20,19 @@ df = load_data()
 st.sidebar.header("📌 Filter")
 country = st.sidebar.selectbox("Select Country", sorted(df["location"].unique()))
 country_data = df[df["location"] == country]
+# Date range filter
+min_date = country_data["date"].min()
+max_date = country_data["date"].max()
+date_range = st.sidebar.slider(
+    "Select Date Range",
+    min_value=min_date,
+    max_value=max_date,
+    value=(min_date, max_date)
+)
+
+# Filter country_data based on date range
+filtered_data = country_data[(country_data["date"] >= date_range[0]) & (country_data["date"] <= date_range[1])]
+
 
 # Display metrics
 st.subheader(f"📊 Stats for {country}")
@@ -31,7 +44,8 @@ col3.metric("Total Vaccinations", f"{int(country_data['total_vaccinations'].max(
 # Line chart
 st.markdown("### 📈 Daily New Cases Over Time")
 fig, ax = plt.subplots(figsize=(10, 4))
-sns.lineplot(x="date", y="new_cases", data=country_data, ax=ax, color="red")
+sns.lineplot(x="date", y="new_cases", data=filtered_data, ax=ax, color="red")
+
 ax.set_ylabel("New Cases")
 st.pyplot(fig)
 
