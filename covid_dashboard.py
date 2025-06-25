@@ -74,7 +74,3 @@ plt.tight_layout()
 
 st.pyplot(fig2)
 
-
-
-# Optional: Add more sections (vaccinations over time, death rate, etc.)
-
