@@ -12,8 +12,8 @@ st.set_page_config(layout="wide", page_title="WHO-style COVID Dashboard")
 # -------------------------
 @st.cache_data(ttl=60 * 60 * 6)  # cache for 6 hours
 def load_who_data():
-    local_path = "/mnt/data/WHO-COVID-19-global-daily-data.csv"
-    remote_url = "https://covid19.who.int/WHO-COVID-19-global-data.csv"
+    local_path = "/WHO-COVID-19-global-daily-data.csv"
+    remote_url = "https://data.who.int/dashboards/covid19/data?n=c"
 
     if os.path.exists(local_path):
         try:
