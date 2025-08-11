@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 st.set_page_config(layout="wide")
-st.title("🦠 COVID-19 Data Analysis Dashboard – June 2025")
+st.title("COVID-19 Data Analysis Dashboard – June 2025")
 
 @st.cache_data
 def load_data():
