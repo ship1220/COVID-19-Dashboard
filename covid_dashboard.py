@@ -32,7 +32,7 @@ def load_vacc_data():
         "Day": "Date",
         "COVID-19 doses (daily, 7-day average, per million people)": "Doses per Million"
     }, inplace=True)
-    df["Day"] = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
+    df["Date"] = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
     return df
 
 
@@ -110,3 +110,4 @@ st.plotly_chart(fig_top10, use_container_width=True)
 
 # Footer
 st.caption("Data Source: World Health Organization (WHO) & Our World in Data") 
+
