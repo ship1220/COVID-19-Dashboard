@@ -28,11 +28,11 @@ def load_who_data():
 def load_vacc_data():
     df = pd.read_csv("daily-covid-19-vaccine-doses-administered-per-million-people.csv")
     df.rename(columns={
-        "Country": "Country",
-        "Date": "Date",
+        "Entity": "Country",
+        "Day": "Date",
         "COVID-19 doses (daily, 7-day average, per million people)": "Doses per Million"
     }, inplace=True)
-    df["Date"] = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
+    df["Day"] = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
     return df
 
 
