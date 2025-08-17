@@ -28,11 +28,11 @@ def load_who_data():
 def load_vacc_data():
     df = pd.read_csv("daily-covid-19-vaccine-doses-administered-per-million-people.csv")
     df.rename(columns={
-        "Country": "country",
-        "Date": "date",
-        "COVID-19 doses (daily, 7-day average, per million people)": "doses_per_million"
+        "Country": "Country",
+        "Date": "Date",
+        "COVID-19 doses (daily, 7-day average, per million people)": "Doses per Million"
     }, inplace=True)
-    df["date"] = pd.to_datetime(df["date"], dayfirst=True, errors="coerce")
+    df["Date"] = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
     return df
 
 
@@ -75,7 +75,6 @@ col2.metric("Total Deaths", f"{total_deaths:,}")
 col3.metric("New Cases (Selected Range)", f"{total_new_cases:,}")
 col4.metric("New Deaths (Selected Range)", f"{total_new_deaths:,}")
 
-
 # Charts - Cases/Deaths
 st.subheader("Daily New Cases Over Time")
 fig_cases = px.line(filtered_cases, x="Date", y="New Cases", title=f"Daily New Cases in {country}", markers=True)
@@ -110,4 +109,4 @@ fig_top10.update_layout(yaxis=dict(autorange="reversed"))
 st.plotly_chart(fig_top10, use_container_width=True)
 
 # Footer
-st.caption("Data Source: World Health Organization (WHO)")
+st.caption("Data Source: World Health Organization (WHO) & Our World in Data")
