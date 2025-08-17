@@ -26,17 +26,13 @@ def load_who_data():
 
 @st.cache_data
 def load_vacc_data():
-    df = pd.read_csv("COV_VAC_UPTAKE_2024.csv", parse_dates=["DATE"])
+    df = pd.read_csv("daily-covid-19-vaccine-doses-administered-per-million-people.csv")
     df.rename(columns={
-        "DATE": "Date",
-        "COUNTRY": "Country",
-        "GROUP": "Group",
-        "COVID_VACCINE_ADM_1D": "Doses Administered (1st Dose)",
-        "COVID_VACCINE_COV_1D": "Coverage (1st Dose)",
-        "POPULATION": "Population",
-        "QUARTER": "Quarter",
-        "YEAR": "Year"
+        "Country": "country",
+        "Date": "date",
+        "COVID-19 doses (daily, 7-day average, per million people)": "doses_per_million"
     }, inplace=True)
+    df["date"] = pd.to_datetime(df["date"], dayfirst=True, errors="coerce")
     return df
 
 
@@ -79,13 +75,6 @@ col2.metric("Total Deaths", f"{total_deaths:,}")
 col3.metric("New Cases (Selected Range)", f"{total_new_cases:,}")
 col4.metric("New Deaths (Selected Range)", f"{total_new_deaths:,}")
 
-# KPIs - Vaccinations
-if not country_vacc.empty:
-    latest_vacc = country_vacc.sort_values("Date").iloc[-1]
-    col5, col6, col7 = st.columns(3)
-    col5.metric("Doses Administered (1st Dose)", f"{int(latest_vacc['Doses Administered (1st Dose)']):,}")
-    col6.metric("Coverage (1st Dose)", f"{latest_vacc['Coverage (1st Dose)']:.2f}%")
-    col7.metric("Population", f"{int(latest_vacc['Population']):,}")
 
 # Charts - Cases/Deaths
 st.subheader("Daily New Cases Over Time")
@@ -98,11 +87,9 @@ st.plotly_chart(fig_deaths, use_container_width=True)
 
 # Chart - Vaccinations
 if not country_vacc.empty:
-    st.subheader("Vaccination Progress Over Time")
-    fig_vacc = px.line(country_vacc, x="Date",
-                       y=["Doses Administered (1st Dose)", "Coverage (1st Dose)"],
-                       labels={"value": "Value", "Date": "Date", "variable": "Category"},
-                       title=f"Vaccination Progress in {country}")
+    st.subheader("Vaccination Progress Over Time (per million people)")
+    fig_vacc = px.line(country_vacc, x="Date", y="Doses per Million",
+                       title=f"COVID-19 Vaccine Doses in {country} (7-day avg per million)")
     st.plotly_chart(fig_vacc, use_container_width=True)
 
 # Global Top 10
