@@ -26,16 +26,19 @@ def load_who_data():
 
 @st.cache_data
 def load_vacc_data():
-    df = pd.read_csv("COV_VAC_UPTAKE_2024.csv", parse_dates=["DATE_UPDATED"])
+    df = pd.read_csv("COV_VAC_UPTAKE_2024.csv", parse_dates=["DATE"])
     df.rename(columns={
-        "DATE_UPDATED": "Date",
+        "DATE": "Date",
         "COUNTRY": "Country",
-        "TOTAL_VACCINATIONS": "Total Vaccinations",
-        "PERSONS_VACCINATED_1PLUS_DOSE": "At least 1 Dose",
-        "PERSONS_LAST_DOSE": "Fully Vaccinated",
-        "PERSONS_BOOSTER_ADD_DOSE": "Boosted"
+        "GROUP": "Group",
+        "COVID_VACCINE_ADM_1D": "Doses Administered (1st Dose)",
+        "COVID_VACCINE_COV_1D": "Coverage (1st Dose)",
+        "POPULATION": "Population",
+        "QUARTER": "Quarter",
+        "YEAR": "Year"
     }, inplace=True)
     return df
+
 
 cases_df = load_who_data()
 vacc_df = load_vacc_data()
@@ -79,11 +82,10 @@ col4.metric("New Deaths (Selected Range)", f"{total_new_deaths:,}")
 # KPIs - Vaccinations
 if not country_vacc.empty:
     latest_vacc = country_vacc.sort_values("Date").iloc[-1]
-    col5, col6, col7, col8 = st.columns(4)
-    col5.metric("Total Vaccinations", f"{int(latest_vacc['Total Vaccinations']):,}")
-    col6.metric("At least 1 Dose", f"{int(latest_vacc['At least 1 Dose']):,}")
-    col7.metric("Fully Vaccinated", f"{int(latest_vacc['Fully Vaccinated']):,}")
-    col8.metric("Boosted", f"{int(latest_vacc['Boosted']):,}")
+    col5, col6, col7 = st.columns(3)
+    col5.metric("Doses Administered (1st Dose)", f"{int(latest_vacc['Doses Administered (1st Dose)']):,}")
+    col6.metric("Coverage (1st Dose)", f"{latest_vacc['Coverage (1st Dose)']:.2f}%")
+    col7.metric("Population", f"{int(latest_vacc['Population']):,}")
 
 # Charts - Cases/Deaths
 st.subheader("Daily New Cases Over Time")
@@ -98,8 +100,8 @@ st.plotly_chart(fig_deaths, use_container_width=True)
 if not country_vacc.empty:
     st.subheader("Vaccination Progress Over Time")
     fig_vacc = px.line(country_vacc, x="Date",
-                       y=["At least 1 Dose", "Fully Vaccinated", "Boosted"],
-                       labels={"value": "People", "Date": "Date", "variable": "Category"},
+                       y=["Doses Administered (1st Dose)", "Coverage (1st Dose)"],
+                       labels={"value": "Value", "Date": "Date", "variable": "Category"},
                        title=f"Vaccination Progress in {country}")
     st.plotly_chart(fig_vacc, use_container_width=True)
 
