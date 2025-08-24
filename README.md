@@ -3,6 +3,7 @@
 ## Project Overview
 This project analyzes the daily COVID-19 vaccine doses administered per million people across different countries.  
 The dataset provides insights into how vaccination efforts progressed globally, with a focus on trends and comparisons across time and regions.
+To view the poject- [Open the Streamlit Dashboard](https://covid-19-dashboard-2kv65k9mlqeyvccmphthwg.streamlit.app/)
 
 ## Dataset
 - **File Used**: - `WHO-COVID-19-global-daily-data.csv` (Daily new cases and deaths)
