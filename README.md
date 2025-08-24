@@ -30,6 +30,6 @@ To view the project- [Open the Streamlit Dashboard](https://covid-19-dashboard-2
 ## Technologies Used
 - **Python**
 - **Pandas** → Data cleaning and manipulation
-- **Matplotlib / Seaborn** → Data visualization
+- **Plotly Express** →Interactive Data visualization
 - **Jupyter Notebook** → Development environment
 - **Streamlit** → Deployment environment
